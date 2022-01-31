@@ -1,6 +1,6 @@
-#PROJECT = cloudflare-ingress-controller
-PROJECT = argo-tunnel
-REGISTRY ?= gcr.io/cloudflare-registry
+PROJECT = cloudflare-ingress-controller
+#PROJECT = argo-tunnel
+REGISTRY ?= maltejk
 IMAGE := $(REGISTRY)/$(PROJECT)
 
 PLATFORMS := \
