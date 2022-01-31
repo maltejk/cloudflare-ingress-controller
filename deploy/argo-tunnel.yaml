@@ -35,7 +35,7 @@ subjects:
   name: argo-tunnel
   namespace: default
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -57,7 +57,7 @@ spec:
         app: argo-tunnel
     spec:
       containers:
-      - image: gcr.io/cloudflare-registry/argo-tunnel:0.6.5
+      - image: docker.io/maltejk/cloudflare-ingress-controller:0.6.5-5-g2e34313-dirty
         imagePullPolicy: Always
         name: argo-tunnel
         command: ["argot", "couple"]

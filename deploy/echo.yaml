@@ -13,7 +13,7 @@ spec:
   selector:
     app: echo
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -55,10 +55,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - echo.mydomain.com
-    secretName: mydomain.com
+    - echo.winkekadse.de
+    secretName: winkekadse.de
   rules:
-  - host: echo.mydomain.com
+  - host: echo.winkekadse.de
     http:
       paths:
       - backend:
