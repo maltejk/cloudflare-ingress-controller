@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cloudflare/cloudflare-ingress-controller/internal/cloudflare"
+	"github.com/cloudflare/cloudflare-ingress-controller/pkg/cloudflare"
 	"github.com/stretchr/testify/assert"
 )
 

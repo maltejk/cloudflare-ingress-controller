@@ -3,9 +3,9 @@ package argotunnel
 import (
 	"fmt"
 
-	"github.com/cloudflare/cloudflare-ingress-controller/internal/k8s"
+	"github.com/cloudflare/cloudflare-ingress-controller/pkg/k8s"
 	"github.com/sirupsen/logrus"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/api/extensions/v1beta1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/client-go/tools/cache"

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cloudflare/cloudflare-ingress-controller/internal/k8s"
-	"k8s.io/api/core/v1"
+	"github.com/cloudflare/cloudflare-ingress-controller/pkg/k8s"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/api/extensions/v1beta1"
 	"k8s.io/apimachinery/pkg/api/equality"
 	"k8s.io/apimachinery/pkg/api/meta"

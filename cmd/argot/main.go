@@ -15,9 +15,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/cloudflare/cloudflare-ingress-controller/internal/argotunnel"
-	"github.com/cloudflare/cloudflare-ingress-controller/internal/cloudflare"
-	"github.com/cloudflare/cloudflare-ingress-controller/internal/k8s"
+	"github.com/cloudflare/cloudflare-ingress-controller/pkg/argotunnel"
+	"github.com/cloudflare/cloudflare-ingress-controller/pkg/cloudflare"
+	"github.com/cloudflare/cloudflare-ingress-controller/pkg/k8s"
 	"github.com/oklog/run"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
