@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudflare/cloudflared/origin"
+	"github.com/maltejk/cloudflared/origin"
 )
 
 // TODO: Review the metrics pattern used by cloudflared and

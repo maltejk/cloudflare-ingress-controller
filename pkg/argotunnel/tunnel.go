@@ -15,8 +15,8 @@ import (
 	"time"
 
 	"github.com/cloudflare/cloudflare-ingress-controller/pkg/cloudflare"
-	"github.com/cloudflare/cloudflared/origin"
 	"github.com/cloudflare/cloudflared/tunnelrpc/pogs"
+	"github.com/maltejk/cloudflared/origin"
 	"github.com/sirupsen/logrus"
 	utilrand "k8s.io/apimachinery/pkg/util/rand"
 )
