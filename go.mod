@@ -6,7 +6,7 @@ require (
 	github.com/alecthomas/units v0.0.0-20211218093645-b94a6e3cc137 // indirect
 	github.com/certifi/gocertifi v0.0.0-20210507211836-431795d63e8d // indirect
 	github.com/cloudflare/brotli-go v0.0.0-20191101163834-d34379f7ff93 // indirect
-	github.com/cloudflare/cloudflare-ingress-controller v0.0.0-00010101000000-000000000000
+	github.com/cloudflare/cloudflare-ingress-controller v0.0.0-20190322162106-44fb6e4a5f7e
 	github.com/cloudflare/cloudflared v0.0.0-20190227235954-4586ed3e514f
 	github.com/cloudflare/golibs v0.0.0-20210909181612-21743d7dd02a // indirect
 	github.com/getsentry/raven-go v0.2.0 // indirect
