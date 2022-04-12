@@ -20,6 +20,7 @@ import (
 	"github.com/cloudflare/cloudflare-ingress-controller/pkg/k8s"
 	"github.com/oklog/run"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/netutil"
@@ -136,8 +137,8 @@ func main() {
 			// and does not differential by tunnel (e.g. assumes a daemon per tunnel)
 			promregistry := prometheus.NewRegistry()
 			promregistry.MustRegister(
-				prometheus.NewProcessCollector(os.Getpid(), ""),
-				prometheus.NewGoCollector(),
+				collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+				collectors.NewGoCollector(),
 			)
 
 			metricServerMux := http.NewServeMux()

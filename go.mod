@@ -3,7 +3,6 @@ module github.com/maltejk/cloudflare-ingress-controller
 go 1.16
 
 require (
-	github.com/alecthomas/units v0.0.0-20211218093645-b94a6e3cc137 // indirect
 	github.com/certifi/gocertifi v0.0.0-20210507211836-431795d63e8d // indirect
 	github.com/cloudflare/brotli-go v0.0.0-20191101163834-d34379f7ff93 // indirect
 	github.com/cloudflare/cloudflare-ingress-controller v0.0.0-20190322162106-44fb6e4a5f7e
@@ -14,7 +13,6 @@ require (
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/oklog/run v1.0.0
 	github.com/prometheus/client_golang v1.12.1
-	github.com/prometheus/common v0.33.0 // indirect
 	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/testify v1.7.0
 	github.com/tinylib/msgp v1.1.6 // indirect
