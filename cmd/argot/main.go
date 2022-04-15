@@ -177,7 +177,7 @@ func main() {
 				os.Exit(1)
 			}
 
-			argotunnel.EnableMetrics(5 * time.Second)
+			//argotunnel.EnableMetrics(5 * time.Second)
 			argotunnel.SetRepairBackoff(*repairdelay, *repairjitter, *repairsteps)
 			argotunnel.SetTagLimit(*taglimit)
 			argotunnel.SetVersion(version)

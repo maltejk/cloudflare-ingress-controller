@@ -15,8 +15,9 @@ import (
 	"time"
 
 	"github.com/cloudflare/cloudflare-ingress-controller/pkg/cloudflare"
+	"github.com/cloudflare/cloudflared/cmd/cloudflared/cliutil"
+	"github.com/cloudflare/cloudflared/origin"
 	"github.com/cloudflare/cloudflared/tunnelrpc/pogs"
-	"github.com/maltejk/cloudflared/origin"
 	"github.com/sirupsen/logrus"
 	utilrand "k8s.io/apimachinery/pkg/util/rand"
 )
@@ -94,16 +95,49 @@ type tunnelLink interface {
 	stop() error
 }
 
+// from tunnel.gosrc
+
+type TunnelConfig struct {
+	EdgeAddrs          []string
+	OriginUrl          string
+	Hostname           string
+	OriginCert         []byte
+	TlsConfig          *tls.Config
+	ClientTlsConfig    *tls.Config
+	Retries            uint
+	HeartbeatInterval  time.Duration
+	MaxHeartbeats      uint64
+	ClientID           string
+	BuildInfo          *cliutil.BuildInfo
+	ReportedVersion    string
+	LBPool             string
+	Tags               []pogs.Tag
+	HAConnections      int
+	HTTPTransport      http.RoundTripper
+	Metrics            *TunnelMetrics
+	MetricsUpdateFreq  time.Duration
+	TransportLogger    *logrus.Logger
+	Logger             *logrus.Logger
+	IsAutoupdated      bool
+	GracePeriod        time.Duration
+	RunFromTerminal    bool
+	NoChunkedEncoding  bool
+	WSGI               bool
+	CompressionQuality uint64
+	IncidentLookup     origin.IncidentLookup
+	CloseConnOnce      *sync.Once // Used to close connectedSignal no more than once
+}
+
 type syncTunnelLink struct {
 	mu      sync.RWMutex
 	rule    tunnelRule
 	cert    []byte
 	opts    tunnelOptions
-	config  *origin.TunnelConfig
+	config  *TunnelConfig
 	errCh   chan error
 	quitCh  chan struct{}
 	stopCh  chan struct{}
-	repiars uint
+	repairs uint
 	log     *logrus.Logger
 }
 
@@ -194,9 +228,9 @@ func newTunnelLink(rule tunnelRule, cert []byte, options tunnelOptions) tunnelLi
 	}
 }
 
-func newLinkTunnelConfig(rule tunnelRule, cert []byte, options tunnelOptions) *origin.TunnelConfig {
+func newLinkTunnelConfig(rule tunnelRule, cert []byte, options tunnelOptions) *TunnelConfig {
 	httpTransport := newLinkHTTPTransport()
-	return &origin.TunnelConfig{
+	return &TunnelConfig{
 		EdgeAddrs:  []string{}, // load default values later, see github.com/cloudflare/cloudflared/blob/master/origin/discovery.go#
 		OriginUrl:  getOriginURL(rule),
 		Hostname:   rule.host,
@@ -210,7 +244,7 @@ func newLinkTunnelConfig(rule tunnelRule, cert []byte, options tunnelOptions) *o
 		HeartbeatInterval: options.heartbeatInterval,
 		MaxHeartbeats:     options.heartbeatCount,
 		ClientID:          utilrand.String(32),
-		BuildInfo:         origin.GetBuildInfo(),
+		BuildInfo:         cliutil.GetBuildInfo("", "DEV"),
 		ReportedVersion:   versionConfig.version,
 		LBPool:            options.lbPool,
 		Tags:              parseTags(options.tags, tagConfig.limit),
@@ -373,7 +407,7 @@ func repairFunc(l *syncTunnelLink) func() {
 						}).Errorf("link exited with error (%s) '%v', repairing ...", reflect.TypeOf(err), err)
 
 						// linear back-off on runtime error
-						delay := repairDelay(ll.repiars, repairBackoff.delay, repairBackoff.jitter, repairBackoff.steps)
+						delay := repairDelay(ll.repairs, repairBackoff.delay, repairBackoff.jitter, repairBackoff.steps)
 						log.WithFields(logrus.Fields{
 							"origin":   ll.config.OriginUrl,
 							"hostname": ll.rule.host,
@@ -406,7 +440,7 @@ func repairFunc(l *syncTunnelLink) func() {
 						ll.config.IncidentLookup = origin.NewIncidentLookup()
 						ll.config.CloseConnOnce = &sync.Once{}
 						ll.stopCh = make(chan struct{})
-						ll.repiars++
+						ll.repairs++
 						go launchFunc(ll)()
 					}()
 				}
